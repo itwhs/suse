@@ -45,10 +45,10 @@ service SuSEfirewall2 restart
 
 附图：
 
-![suse重置密码0](https://github.com/itwhs/suse/blob/main/Saved%20Pictures/%E9%87%8D%E7%BD%AEsuse%E5%AF%86%E7%A0%810.png)
+![suse重置密码0](https://github.com/itwhs/suse/blob/main/Saved Pictures/重置suse密码0.png)
 
-![重置suse密码1](./Saved Pictures/重置suse密码1.png)
+![重置suse密码1](https://github.com/itwhs/suse/blob/main/Saved Pictures/重置suse密码1.png)
 
-![重置suse密码2a](./Saved Pictures/重置suse密码2a.png)
+![重置suse密码2a](https://github.com/itwhs/suse/blob/main/Saved Pictures/重置suse密码2a.png)
 
-![重置suse密码2b](./Saved Pictures/重置suse密码2b.png)
+![重置suse密码2b](https://github.com/itwhs/suse/blob/main/Saved Pictures/重置suse密码2b.png)
