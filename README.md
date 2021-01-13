@@ -53,3 +53,66 @@ service SuSEfirewall2 restart
 
 ![重置suse密码2b](https://github.com/itwhs/suse/blob/main/Saved%20Pictures/%E9%87%8D%E7%BD%AEsuse%E5%AF%86%E7%A0%812b.png)
 
+# 问题三：什么是文件描述符/文件句柄/文件指针？它们的区别与联系是什么？
+
+### 参考资料：
+
+1. [句柄](https://www.jianshu.com/p/ad879061edb2)
+2. [inode](https://www.jianshu.com/p/d60a2b44e78e)
+
+# 问题四：获取指定网卡ip地址：
+
+## 解决方法：
+
+```shell
+#比如eth0网卡
+ifconfig eth0 | grep -E 'inet addr:|inet 地址:' | awk '{print $2}' | cut -c 6-
+
+
+#步骤解析：
+linux-ascj:~ # ifconfig eth0
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:18:C6:0D  
+          inet addr:192.168.3.229  Bcast:192.168.3.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe18:c60d/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1495 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:25 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:108566 (106.0 Kb)  TX bytes:2588 (2.5 Kb)
+linux-ascj:~ # ifconfig eth0 | grep -E 'inet addr:|inet 地址:' 
+          inet addr:192.168.3.229  Bcast:192.168.3.255  Mask:255.255.255.0
+linux-ascj:~ # ifconfig eth0 | grep -E 'inet addr:|inet 地址:' | awk '{print $2}' 
+addr:192.168.3.229
+linux-ascj:~ # ifconfig eth0 | grep -E 'inet addr:|inet 地址:' | awk '{print $2}' | cut -c 6-
+192.168.3.229
+```
+
+## 扩展：
+
+获取主机ip，但是无法指定是哪个网卡的ip，便于统计ip
+
+```shell
+ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'
+
+#步骤解析：
+linux-ascj:~ # ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:0c:29:18:c6:0d brd ff:ff:ff:ff:ff:ff
+    inet 192.168.3.229/24 brd 192.168.3.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fe18:c60d/64 scope link 
+       valid_lft forever preferred_lft forever
+
+linux-ascj:~ # ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'
+192.168.3.229
+linux-ascj:~ # ip addr | awk '/^[0-9]+: / {}; /inet.*eth0/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'
+192.168.3.229
+#可以试试该eth0字段，看看是否有ip变动
+```
+
