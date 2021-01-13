@@ -116,3 +116,20 @@ linux-ascj:~ # ip addr | awk '/^[0-9]+: / {}; /inet.*eth0/ {print gensub(/(.*)\/
 #可以试试该eth0字段，看看是否有ip变动
 ```
 
+
+# 问题五：RH2288HV5服务器安装suse系统，无法显示启动项
+
+### 原因解析：是挂载的虚拟CD安装系统，服务器bios默认是UEFI引导，需要改成Legacy Boot模式才能正常安装系统
+
+## 解决办法：
+
+1.把Boot Type改为Legacy Boot
+
+![RH2288HV5bios1](https://github.com/itwhs/suse/blob/main/Saved%20Pictures/RH2288HV5bios1.png)
+
+2.进Advanced里面，找到Console Redirection，点进去，改为Disabled。保存重启。（如果不改这个，引导没显示，无法进入装好的系统）
+
+Console Redirection网上说是串口重定向，把指定的物理串口或虚拟串口的数据映射到指定的系统串口。
+
+![RH2288HV5bios2](https://github.com/itwhs/suse/blob/main/Saved%20Pictures/RH2288HV5bios2.png)
+![RH2288HV5bios3](https://github.com/itwhs/suse/blob/main/Saved%20Pictures/RH2288HV5bios3.png)
